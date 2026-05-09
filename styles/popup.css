@@ -1,0 +1,70 @@
+body {
+    margin: 0px;
+    width: 320px;
+    height: 160px;
+    background-color: rgb(23 23 23);
+    padding: 20px;
+    color: white;
+}
+
+header {
+    display: flex;
+}
+
+header #extension-name-container {
+    align-self: flex-start;
+    margin-left: 8px;
+}
+
+header #extension-name-container #extension-name {
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: large;
+}
+
+header #extension-name-container #extension-description {
+    margin-top: 2px;
+    color: darkgray;
+    font-weight: bold;
+}
+
+main {
+    margin-top: 36px;
+}
+
+main .message {
+    margin-bottom: 5px;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    background-color: #8EE1EF;
+    color: black;
+}
+
+
+main .message-icon {
+    width: 24px;
+    height: 24px;
+}
+
+main .message-body {
+    margin-left: 8px;
+}
+
+footer {
+    margin-top: 60px;
+    padding-bottom: 12px;
+    text-align: right;
+    color: darkgray;
+}
+
+footer .seperator {
+    margin-bottom: 10px;
+}
+
+footer a {
+    color: darkgray;
+}
