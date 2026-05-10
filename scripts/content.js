@@ -28,9 +28,14 @@ function main() {
         searchElement.addEventListener(
             'change',
             (event) => {
-                const datalistOption = document.querySelector(`#${event.target.getAttribute('list')} option[data-text='${event.target.value}']`);
+                const datalist = document.getElementById(event.target.getAttribute('list'));
+                const datalistOption = [...datalist.options]
+                    .find(o => o.dataset.text === event.target.value);
                 const selectElement = document.querySelector(`select[data-catsfselectid='${event.target.dataset.selectId}']`);
-                selectElement.value = datalistOption.dataset.value;
+                
+                if (!datalistOption || !selectElement) return;
+
+                selectElement.value = datalistOption?.dataset?.value;
                 selectElement.dispatchEvent(new Event('change'));
                 event.target.value = null;
             }
