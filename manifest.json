@@ -17,7 +17,8 @@
         "js": ["scripts/content.js"],
         "matches": [
           "https://*.salesforce-setup.com/*"
-        ]
+        ],
+        "all_frames": true
       }
     ],
     "icons": {
