@@ -1,8 +1,8 @@
 function main() {
     const selectElements = document.querySelectorAll("select:not(.cat-sf-select)");
 
-    for (const [index, selectElement] of selectElements.entries()) {
-        selectElement.dataset.catsfselectid = selectElement.id ? selectElement.id : `catsfselectid_${index}`;
+    for (selectElement of selectElements) {
+        selectElement.dataset.catsfselectid = selectElement.id ? selectElement.id : `catsfselectid_${crypto.randomUUID()}`;
            
         const searchElement = document.createElement('input');
         searchElement.id = selectElement.dataset.catsfselectid + '_choice';
