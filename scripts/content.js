@@ -3,7 +3,7 @@ function main() {
 
     for (selectElement of selectElements) {
         selectElement.dataset.catsfselectid = selectElement.id ? selectElement.id : `catsfselectid_${crypto.randomUUID()}`;
-           
+
         const searchElement = document.createElement('input');
         searchElement.id = selectElement.dataset.catsfselectid + '_choice';
         searchElement.setAttribute('list', selectElement.dataset.catsfselectid + '_list');
@@ -18,14 +18,14 @@ function main() {
             (event) => {
                 const datalist = document.getElementById(event.target.getAttribute('list'));
                 const datalistOption = [...datalist.options]
-                    .find(o => o.dataset.text === event.target.value);
+                    .find(o => o.value === event.target.value);
                 const selectElement = document.querySelector(`select[data-catsfselectid='${event.target.dataset.selectId}']`);
                 
                 if (!datalistOption || !selectElement) return;
 
-                selectElement.value = datalistOption?.dataset?.value;
-                selectElement.dispatchEvent(new Event('change'));
-                event.target.value = null;
+                selectElement.value = datalistOption.dataset.value;
+                selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+                event.target.value = "";
             }
         );
 
@@ -33,9 +33,8 @@ function main() {
         datalistElement.id = searchElement.getAttribute('list');
         for (const o of selectElement.options) {
             const datalistOption = document.createElement('option');
-            datalistOption.value = o.text;
+            datalistOption.value = `${o.text} (${o.value})`;
             datalistOption.dataset.value = o.value;
-            datalistOption.dataset.text = o.text;
             datalistElement.appendChild(datalistOption);
         }
 
