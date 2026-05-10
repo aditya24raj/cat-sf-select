@@ -6,24 +6,12 @@ function main() {
            
         const searchElement = document.createElement('input');
         searchElement.id = selectElement.dataset.catsfselectid + '_choice';
-        searchElement.name = searchElement.id;
         searchElement.setAttribute('list', selectElement.dataset.catsfselectid + '_list');
         searchElement.dataset.selectId = selectElement.dataset.catsfselectid;
         searchElement.style.margin = "3px 0px";
         searchElement.style.width = "stretch";
         searchElement.style.display = "block";
-
-        try {
-            let placeholder = "";
-            document.querySelector(`label[for='${selectElement.dataset.catsfselectid}']`).childNodes.forEach((i) => {
-                if (i.nodeType === Node.TEXT_NODE) {
-                    placeholder += i.textContent;
-                }
-            });
-            searchElement.placeholder = `Search ${placeholder}`;
-        } catch (error) {
-            searchElement.placeholder = "Search the options above";
-        }  
+        searchElement.placeholder = "Search";
 
         searchElement.addEventListener(
             'change',
