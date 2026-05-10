@@ -1,18 +1,21 @@
 function main() {
     const selectElements = document.querySelectorAll("select:not([class~='cat-sf-select'])");
 
-    for (const selectElement of selectElements) {   
+    for (const [index, selectElement] of selectElements.entries()) {
+        selectElement.dataset.catsfselectid = selectElement.id ? selectElement.id : `catsfselectid_${index}`;
+           
         const searchElement = document.createElement('input');
-        searchElement.id = selectElement.id + '_choice';
+        searchElement.id = selectElement.dataset.catsfselectid + '_choice';
         searchElement.name = searchElement.id;
-        searchElement.setAttribute('list', selectElement.id + '_list');
-        searchElement.dataset.selectId = selectElement.id;
+        searchElement.setAttribute('list', selectElement.dataset.catsfselectid + '_list');
+        searchElement.dataset.selectId = selectElement.dataset.catsfselectid;
         searchElement.style.margin = "3px 0px";
         searchElement.style.width = "stretch";
+        searchElement.style.display = "block";
 
         try {
             let placeholder = "";
-            document.querySelector(`label[for='${selectElement.id}']`).childNodes.forEach((i) => {
+            document.querySelector(`label[for='${selectElement.dataset.catsfselectid}']`).childNodes.forEach((i) => {
                 if (i.nodeType === Node.TEXT_NODE) {
                     placeholder += i.textContent;
                 }
@@ -26,8 +29,9 @@ function main() {
             'change',
             (event) => {
                 const datalistOption = document.querySelector(`#${event.target.getAttribute('list')} option[data-text='${event.target.value}']`);
-                const selectElement = document.querySelector(`#${event.target.dataset.selectId}`);
+                const selectElement = document.querySelector(`select[data-catsfselectid='${event.target.dataset.selectId}']`);
                 selectElement.value = datalistOption.dataset.value;
+                selectElement.dispatchEvent(new Event('change'));
                 event.target.value = null;
             }
         );
