@@ -7,9 +7,21 @@ function main() {
         searchElement.name = searchElement.id;
         searchElement.setAttribute('list', selectElement.id + '_list');
         searchElement.dataset.selectId = selectElement.id;
-        searchElement.style.marginTop = "3px";
+        searchElement.style.margin = "3px 0px";
         searchElement.style.width = "stretch";
-        searchElement.placeholder = "search the options";    
+
+        try {
+            let placeholder = "";
+            document.querySelector(`label[for='${selectElement.id}']`).childNodes.forEach((i) => {
+                if (i.nodeType === Node.TEXT_NODE) {
+                    placeholder += i.textContent;
+                }
+            });
+            searchElement.placeholder = `Search ${placeholder}`;
+        } catch (error) {
+            searchElement.placeholder = "Search the options above";
+        }  
+
         searchElement.addEventListener(
             'change',
             (event) => {
