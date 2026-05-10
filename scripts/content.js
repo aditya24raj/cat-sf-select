@@ -1,5 +1,5 @@
 function main() {
-    const selectElements = document.querySelectorAll("select:not([class~='cat-sf-select'])");
+    const selectElements = document.querySelectorAll("select:not(.cat-sf-select)");
 
     for (const [index, selectElement] of selectElements.entries()) {
         selectElement.dataset.catsfselectid = selectElement.id ? selectElement.id : `catsfselectid_${index}`;
