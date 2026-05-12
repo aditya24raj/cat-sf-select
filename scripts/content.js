@@ -4,7 +4,11 @@ function main() {
     const selectElements = document.querySelectorAll("select:not(.cat-sf-select)");
 
     for (selectElement of selectElements) {
-        if (selectElement.options == null || selectElement.options.length <= minimumOptions) {
+        if (
+            selectElement.options == null // do not process select elements without any options
+            || selectElement.options.length <= minimumOptions // do not process select elements where options are too few
+            || selectElement.checkVisibility() === false // do not process select elements until they are visible. Their visibility may change later with new options.
+        ) {
             continue;
         }
 
@@ -26,7 +30,7 @@ function main() {
                 const datalistOption = [...datalist.options]
                     .find(o => o.value === event.target.value);
                 const selectElement = document.querySelector(`select[data-catsfselectid='${event.target.dataset.selectId}']`);
-                
+
                 if (!datalistOption || !selectElement) return;
 
                 selectElement.value = datalistOption.dataset.value;
@@ -34,6 +38,40 @@ function main() {
                 event.target.value = "";
             }
         );
+
+        searchElement.addEventListener('mouseover', (event) => {
+            // find select element using dataset.selectId
+            const selectElement = document.querySelector(`select[data-catsfselectid='${event.target.dataset.selectId}']`);
+            // find datalist element using getAttribute('list')
+            const datalistElement = document.getElementById(event.target.getAttribute('list'));
+
+            // check if select element & datalist elements have diverged
+            let datalistOptions = new Set();
+            for (const o of datalistElement.options) {
+                datalistOptions.add(o.value);
+            }
+
+            let selectOptions = new Set();
+            for (const o of selectElement.options) {
+                selectOptions.add(`${o.text} (${o.value})`);
+            }
+
+            if (
+                selectOptions.size !== datalistOptions.size 
+                || [...selectOptions].some(o => !datalistOptions.has(o))
+            ) {
+                // remove exisiting options
+                datalistElement.replaceChildren(); 
+
+                // add new options
+                for (const o of selectElement.options) {
+                    const datalistOption = document.createElement('option');
+                    datalistOption.value = `${o.text} (${o.value})`;
+                    datalistOption.dataset.value = o.value;
+                    datalistElement.appendChild(datalistOption);
+                }
+            }
+        })
 
         const datalistElement = document.createElement('datalist');
         datalistElement.id = searchElement.getAttribute('list');
