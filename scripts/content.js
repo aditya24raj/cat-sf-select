@@ -1,11 +1,11 @@
-const minimumOptions = 10;
+const minimumOptions = 5;
 
 function main() {
     const selectElements = document.querySelectorAll("select:not(.cat-sf-select)");
 
-    for (selectElement of selectElements) {
+    for (const selectElement of selectElements) {
         if (
-            selectElement.options == null // do not process select elements without any options
+            !selectElement.options // do not process select elements without any options
             || selectElement.options.length <= minimumOptions // do not process select elements where options are too few
             || selectElement.checkVisibility() === false // do not process select elements until they are visible. Their visibility may change later with new options.
         ) {
@@ -19,7 +19,7 @@ function main() {
         searchElement.setAttribute('list', selectElement.dataset.catsfselectid + '_list');
         searchElement.dataset.selectId = selectElement.dataset.catsfselectid;
         searchElement.style.margin = "3px 0px";
-        searchElement.style.width = "stretch";
+        searchElement.style.width = "100%";
         searchElement.style.display = "block";
         searchElement.placeholder = "Search";
 
@@ -39,7 +39,7 @@ function main() {
             }
         );
 
-        searchElement.addEventListener('mouseover', (event) => {
+        function refresSearchOptions(event) {
             // find select element using dataset.selectId
             const selectElement = document.querySelector(`select[data-catsfselectid='${event.target.dataset.selectId}']`);
             // find datalist element using getAttribute('list')
@@ -71,7 +71,11 @@ function main() {
                     datalistElement.appendChild(datalistOption);
                 }
             }
-        })
+        }
+
+        searchElement.addEventListener('mouseover', (event) => {
+            refresSearchOptions(event);
+        });
 
         const datalistElement = document.createElement('datalist');
         datalistElement.id = searchElement.getAttribute('list');
@@ -82,7 +86,7 @@ function main() {
             datalistElement.appendChild(datalistOption);
         }
 
-        selectElement.parentElement.appendChild(searchElement);
+        selectElement.before(searchElement);
         selectElement.parentElement.appendChild(datalistElement);
         selectElement.classList.add('cat-sf-select');
     }
