@@ -1,7 +1,13 @@
+const minimumOptions = 10;
+
 function main() {
     const selectElements = document.querySelectorAll("select:not(.cat-sf-select)");
 
     for (selectElement of selectElements) {
+        if (selectElement.options == null || selectElement.options.length <= minimumOptions) {
+            continue;
+        }
+
         selectElement.dataset.catsfselectid = selectElement.id ? selectElement.id : `catsfselectid_${crypto.randomUUID()}`;
 
         const searchElement = document.createElement('input');
