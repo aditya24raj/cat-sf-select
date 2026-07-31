@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Cat SF Select",
     "description": "Adds a search box besides select elements in salesforce setup pages",
-    "version": "0.0.0.2",
+    "version": "0.0.0.3",
     "action": {
       "default_popup": "cat-sf-select.html",
       "default_icon": {
@@ -28,4 +28,3 @@
       "128": "images/icon-128.png"
     }
 }
-  
