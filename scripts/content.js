@@ -1,12 +1,9 @@
-const minimumOptions = 5;
-
 function main() {
     const selectElements = document.querySelectorAll("select:not(.cat-sf-select)");
 
     for (const selectElement of selectElements) {
         if (
             !selectElement.options // do not process select elements without any options
-            || selectElement.options.length <= minimumOptions // do not process select elements where options are too few
             || selectElement.checkVisibility() === false // do not process select elements until they are visible. Their visibility may change later with new options.
         ) {
             continue;
@@ -19,7 +16,6 @@ function main() {
         searchElement.setAttribute('list', selectElement.dataset.catsfselectid + '_list');
         searchElement.dataset.selectId = selectElement.dataset.catsfselectid;
         searchElement.style.margin = "3px 0px";
-        searchElement.style.width = "100%";
         searchElement.style.display = "block";
         searchElement.placeholder = "Search";
 
@@ -57,11 +53,11 @@ function main() {
             }
 
             if (
-                selectOptions.size !== datalistOptions.size 
+                selectOptions.size !== datalistOptions.size
                 || [...selectOptions].some(o => !datalistOptions.has(o))
             ) {
                 // remove exisiting options
-                datalistElement.replaceChildren(); 
+                datalistElement.replaceChildren();
 
                 // add new options
                 for (const o of selectElement.options) {
@@ -109,4 +105,3 @@ const observer = new MutationObserver(debounce(
 ));
 
 observer.observe(document.querySelector("body"), { childList: true, subtree: true });
-
